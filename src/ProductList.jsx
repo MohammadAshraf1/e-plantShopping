@@ -1,6 +1,12 @@
 import React, { useState,useEffect } from 'react';
 import './ProductList.css'
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
 import CartItem from './CartItem';
+import addItemReducer from './CartSlice.jsx';
+import CartSlice from './CartSlice.jsx';
+
+
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
@@ -29,6 +35,7 @@ function ProductList() {
                     cost: "$18"
                 },
                 {
+
                     name: "Boston Fern",
                     image: "https://cdn.pixabay.com/photo/2020/04/30/19/52/boston-fern-5114414_1280.jpg",
                     description: "Adds humidity to the air and removes toxins.",
@@ -213,6 +220,7 @@ function ProductList() {
             ]
         }
     ];
+
    const styleObj={
     backgroundColor: '#4CAF50',
     color: '#fff!important',
@@ -248,9 +256,14 @@ const handlePlantsClick = (e) => {
     setShowCart(false);
   };
 
-  const handleAddToCart = ()=>{
-        
+  const handleAddToCart = (product) => {
+    dispatch(addItem(product));
+    setAddedToCart((prevState) => ({
+      ...prevState,
+      [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+    }));
   };
+  
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -285,7 +298,9 @@ const handlePlantsClick = (e) => {
                  <div className="product-title">{plant.name}</div>
                  <button
                    className="product-button"
-                   onClick={() => handleAddToCart(plant)}
+                   onClick={() => handleAddToCart(plant)} //Passing the specific plant object to handleAddToCart
+                                                          //This is because it is mapping over the plants array
+
                  >
                    Add to Cart
                  </button>
