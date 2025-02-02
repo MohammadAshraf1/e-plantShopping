@@ -298,7 +298,7 @@ const handlePlantsClick = (e) => {
                  <div className="product-title">{plant.name}</div>
                  <button
                    className="product-button"
-                   onClick={() => handleAddToCart(plant)} //Passing the specific plant object to handleAddToCart
+                   onClick={() => handleAddToCart(plant)} //Passing the specific plant object with all its details to handleAddToCart
                                                           //This is because it is mapping over the plants array
 
                  >
